@@ -4,8 +4,7 @@
 void SevenSegments_init()
 {
     DDRseg |= 0x7F;
-    /* set the least NUMBER_OF_DECODER_PORTS bits to 1 */
-    DDRdecoder_seg |= (1 << NUMBER_OF_DECODER_PORTS) - 1; 
+    INIT_DECODER_PORT; 
 }
 
 void SevenSegments_write(uint8_t digit, uint8_t digit_index)
@@ -25,7 +24,7 @@ void SevenSegments_write(uint8_t digit, uint8_t digit_index)
         0x05  /*r*/
     };
 
-    PORTdecoder_seg = digit_index;
+    SET_DECODER_PORT(digit_index);
     PORTseg = digit_patterns[digit % 12];
 }
 

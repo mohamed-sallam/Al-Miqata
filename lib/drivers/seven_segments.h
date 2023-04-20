@@ -7,13 +7,11 @@
 /* Module inputs */
 #define DDRseg DDRB
 #define PORTseg PORTB
-#define DDRdecoder_seg DDRC
-#define PORTdecoder_seg PORTC
-#define NUMBER_OF_DECODER_PORTS 6
+#define INIT_DECODER_PORT DDRD |= (((1 << 6) - 1) << 2);
+#define SET_DECODER_PORT(digit_index) PORTD = (PORTD & 0x03) | (digit_index << 2)
 #define REFRESH_RATE 0.1
 /*38*/
 #define NUMBER_OF_DIGITS 24
-#define F_CPU 1000000UL
 
 #include <util/delay.h>
 
