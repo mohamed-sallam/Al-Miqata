@@ -2,13 +2,12 @@
 
 #include <avr/io.h>
 
-#define F_CPU 1000000UL
 #include <seven_segments.h>
-
 #include <prayer_times.h>
 
 
-int main(void) {
+int main() 
+{
     const double julianDate = 2460049.4132407387;
     const Settings settings = {
         .method_params = {
@@ -33,7 +32,8 @@ int main(void) {
     
     SevenSegments_init();
 
-    while (1) {
+    while (1) 
+    {
         SevenSegments_writeDigits(digits);
     }
 }
