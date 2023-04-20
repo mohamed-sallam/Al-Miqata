@@ -4,7 +4,7 @@
 
 void Rtc_init()
 {
-    I2C_Init();
+    I2c_init();
     I2c_start();
 
     I2c_write(0xD0);
@@ -32,7 +32,7 @@ void Rtc_setDateTime(const Date *const date, const Time *const time)
     I2c_stop();
 }
 
-void Rtc_getTime(Time *const time)
+void Rtc_getTime(Time *const out)
 {
     I2c_start();
     I2c_write(0xD0);
@@ -41,13 +41,13 @@ void Rtc_getTime(Time *const time)
 
     I2c_start();
     I2c_write(0xD1);
-    time->sec = I2c_read(1);
-    time->min = I2c_read(1);
-    time->hour = I2c_read(0);
+    out->sec = I2c_read(1);
+    out->min = I2c_read(1);
+    out->hour = I2c_read(0);
     I2c_stop();
 }
 
-void Rtc_getDate(Date *const date)
+void Rtc_getDate(Date *const out)
 {
     I2c_start();
     I2c_write(0xD0);
@@ -56,9 +56,9 @@ void Rtc_getDate(Date *const date)
 
     I2c_start();
     I2c_write(0xD1);
-    date->day = I2c_read(1);
-    date->date = I2c_read(1);
-    date->month = I2c_read(1);
-    date->year = I2c_read(0);
+    out->day = I2c_read(1);
+    out->date = I2c_read(1);
+    out->month = I2c_read(1);
+    out->year = I2c_read(0);
     I2c_stop();
 }
