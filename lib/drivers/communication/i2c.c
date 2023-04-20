@@ -4,6 +4,7 @@
 
 void I2c_init() 
 {
+    PORTC |= 0b01100000;
     TWSR = 0x00;                                             /* Set prescaler to 1 */
     TWBR = (((F_CPU / SCL_FREQ) - 16) >> 1);                 /* Set bit rate */
     TWCR = (1 << TWEN);                                      /* Enable I2C */
