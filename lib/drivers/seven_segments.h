@@ -9,9 +9,8 @@
 #define PORTseg PORTB
 #define INIT_DECODER_PORT DDRD |= (((1 << 6) - 1) << 2);
 #define SET_DECODER_PORT(digit_index) PORTD = (PORTD & 0x03) | (digit_index << 2)
-#define REFRESH_RATE 0.1
-/*38*/
-#define NUMBER_OF_DIGITS 24
+#define REFRESH_RATE 0.05
+#define NUMBER_OF_DIGITS 38
 
 #include <util/delay.h>
 
