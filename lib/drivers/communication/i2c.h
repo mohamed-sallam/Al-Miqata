@@ -1,5 +1,7 @@
 #pragma once
 
+#include <avr/io.h>
+
 #define SCL_FREQ 100000UL
 
 

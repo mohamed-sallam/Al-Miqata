@@ -1,6 +1,5 @@
 #include "i2c.h"
 
-#include <avr/io.h>
 
 void I2c_init() 
 {
