@@ -20,5 +20,6 @@ typedef struct
 
 void Rtc_init();
 void Rtc_setDateTime(const Date *const date, const Time *const time);
-void Rtc_getTime(Time *const time);
-void Rtc_getDate(Date *const date);
+void Rtc_getTime(uint8_t out[4]);
+void Rtc_getDate(uint8_t out[8]);
+uint8_t Rtc_getDay();
