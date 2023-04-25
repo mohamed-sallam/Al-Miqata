@@ -1,5 +1,9 @@
+/* In the name of Allah, the Most Gracious, the Most Merciful */
+
 #pragma once
 
 #include <stdint.h>
 
-void KuwaitiHijriDate_calculate(double julian_date, uint16_t* const out_year, uint8_t* const out_month, uint8_t* const out_day);
+
+/* Source: https://github.com/GeniusTS/hijri-dates/blob/master/src/Converter.php , under MIT license */
+void KuwaitiHijriDate_calculate(double julian_date, uint8_t output[8]);
