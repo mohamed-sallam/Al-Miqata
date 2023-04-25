@@ -37,7 +37,7 @@ typedef enum __attribute__((packed)) {
 } _Direction;
 
 
-typedef struct
+typedef struct __attribute__((packed))
 {
     double fajr_angle;
     double dhuhr_minutes;
@@ -48,7 +48,7 @@ typedef struct
     double isha_value; /* angle or minutes */
 } AdjustingParams;
 
-typedef struct
+typedef struct __attribute__((packed))
 {
     AdjustingParams method_params;
     HigherLatitudesMethod higher_latitudes_method;
@@ -59,7 +59,8 @@ typedef struct
     uint8_t offsets_in_minutes[_TIMES_COUNT];
 } Settings;
 
-typedef struct {
+typedef struct __attribute__((packed))
+{
     double declination;
     double equation;
 } _SunPosition;

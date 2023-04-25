@@ -194,7 +194,7 @@ void _get_formated_time(double time, uint8_t output[4])
 
     /* Hours digits */
     if (_settings->time_format == TimeFormat_12hr_NO_SUFFIX)
-        hours = (hours + 12 - 1) % 12 + 1;
+        hours = (hours + 11) % 12 + 1;
     output[2] = hours % 10;
     output[3] = (hours / 10) % 10;
 }
