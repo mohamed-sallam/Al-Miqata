@@ -3,6 +3,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "../../inc/types.h"
 
 typedef enum __attribute__((packed))
 {
@@ -42,9 +43,9 @@ typedef struct __attribute__((packed))
     double fajr_angle;
     double dhuhr_minutes;
     uint8_t asr_factor;
-    uint8_t maghrib_is_minutes;
+    boolean maghrib_is_minutes;
     double maghrib_value; /* angle or minutes */
-    uint8_t isha_is_minutes;
+    boolean isha_is_minutes;
     double isha_value; /* angle or minutes */
 } AdjustingParams;
 
