@@ -5,6 +5,7 @@
 #include <seven_segments.h>
 #include <led.h>
 #include <rtc.h>
+#include <timer0.h>
 
 #include <prayer_times.h>
 #include <kuwaiti_hijri_date.h>
@@ -53,6 +54,8 @@ int main()
     PrayerTimes_init(&settings);
     uint8_t digits[NUMBER_OF_DIGITS];
     PrayerTimes_get(julianDate, &digits[12]);
+
+    timer0_init(&digits);
     
     Rtc_init(ClockTimeFormat_12h);
     const Date date = {
