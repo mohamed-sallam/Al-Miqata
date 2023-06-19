@@ -1,15 +1,17 @@
 #include "prayer_times.h"
-
+#include "rtc.h"
 #include "dtrig/dtrig.h"
 
-const Settings* _settings;
+Settings *_settings;
 double _julian_date;
 
-void PrayerTimes_init(const Settings* const settings) {
+void PrayerTimes_init(const Settings *const settings)
+{
     _settings = settings;
 }
 
-void PrayerTimes_get(double julianDate, uint8_t output[6][4]) {
+void PrayerTimes_get(double julianDate, uint8_t output[6][4])
+{
     _julian_date = julianDate;
 
     double times[_TIMES_COUNT] = {5, 6, 12, 13, 18, 18, 18};
@@ -17,10 +19,74 @@ void PrayerTimes_get(double julianDate, uint8_t output[6][4]) {
     _modify_formats(times, output);
 }
 
+int16_t PrayerTimes_getNextTime()
+{
+    uint8_t RTC_Time[4];
+    int16_t rtcTime;
+    uint8_t PrayersTime[6][4];
+    int16_t minTime = 2000;
+    int16_t tempPrayTime;
+    uint8_t settingTimeFormat = 0;
+    Rtc_getTime24H(RTC_Time);
+    settingTimeFormat = _settings->time_format;
+    _settings->time_format = TimeFormat_24hr;
+    PrayerTimes_get(_julian_date, PrayersTime[6][4]);
+
+    // conversion of RTC time array into single variable
+    rtcTime = ((RTC_Time[3] * 10 + RTC_Time[2]) * 60) + RTC_Time[1] * 10 + RTC_Time[0];
+    // end of conversion
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == 1)
+            continue;
+
+        tempPrayTime = ((PrayersTime[i][3] * 10 + PrayersTime[i][2]) * 60) + PrayersTime[i][1] * 10 + PrayersTime[i][1] - rtcTime;
+        if ((tempPrayTime < minTime) && (tempPrayTime > 0))
+            minTime = tempPrayTime;
+    }
+
+    _settings->time_format = settingTimeFormat;
+    return minTime;
+}
+uint8_t PrayerTimes_getRemainingTime()
+{
+    uint8_t RTC_Time[4];
+    uint8_t remaningIqemaTime[6] = {30, 0, 20, 20, 10, 20};
+    int16_t rtcTime;
+    uint8_t PrayersTime[6][4];
+    int16_t minTime = 2000;
+    uint8_t minCounter = 0;
+    int16_t tempPrayTime;
+    uint8_t settingTimeFormat = 0;
+    Rtc_getTime24H(RTC_Time);
+    settingTimeFormat = _settings->time_format;
+    _settings->time_format = TimeFormat_24hr;
+    PrayerTimes_get(_julian_date, PrayersTime[6][4]);
+
+    // conversion of RTC time array into single variable
+    rtcTime = ((RTC_Time[3] * 10 + RTC_Time[2]) * 60) + RTC_Time[1] * 10 + RTC_Time[0];
+    // end of conversion
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == 1)
+            continue;
+
+        tempPrayTime = ((PrayersTime[i][3] * 10 + PrayersTime[i][2]) * 60) + PrayersTime[i][1] * 10 + PrayersTime[i][1] - rtcTime;
+        if ((tempPrayTime < minTime) && (tempPrayTime >= 0))
+        {
+            minTime = tempPrayTime;
+            minCounter = i;
+        }
+    }
+    _settings->time_format = settingTimeFormat;
+    return remaningIqemaTime[minCounter];
+}
 
 /* ---------------------- Compute Prayer Times ----------------------- */
 /* compute prayer times */
-void _compute_times(double output[_TIMES_COUNT]) 
+void _compute_times(double output[_TIMES_COUNT])
 {
     _compute_prayer_times(output);
     _adjust_times(output);
@@ -32,13 +98,13 @@ void _compute_prayer_times(double output[_TIMES_COUNT])
 {
     _day_portion(output);
 
-    output[_TimeName_FAJR]    = _sun_angle_time(_settings->method_params.fajr_angle, output[_TimeName_FAJR], _Direction_COUNTERCLOCKWISE);
+    output[_TimeName_FAJR] = _sun_angle_time(_settings->method_params.fajr_angle, output[_TimeName_FAJR], _Direction_COUNTERCLOCKWISE);
     output[_TimeName_SUNRISE] = _sun_angle_time(_settings->rise_set_angle, output[_TimeName_SUNRISE], _Direction_COUNTERCLOCKWISE);
-    output[_TimeName_DHUHR]   = _compute_mid_day(output[_TimeName_DHUHR]);
-    output[_TimeName_ASR]     = _compute_asr(_settings->method_params.asr_factor, output[_TimeName_ASR]);
-    output[_TimeName_SUNSET]  = _sun_angle_time(_settings->rise_set_angle, output[_TimeName_SUNSET], _Direction_CLOCKWISE);
+    output[_TimeName_DHUHR] = _compute_mid_day(output[_TimeName_DHUHR]);
+    output[_TimeName_ASR] = _compute_asr(_settings->method_params.asr_factor, output[_TimeName_ASR]);
+    output[_TimeName_SUNSET] = _sun_angle_time(_settings->rise_set_angle, output[_TimeName_SUNSET], _Direction_CLOCKWISE);
     output[_TimeName_MAGHRIB] = _sun_angle_time(_settings->method_params.maghrib_value, output[_TimeName_MAGHRIB], _Direction_CLOCKWISE);
-    output[_TimeName_ISHA]    = _sun_angle_time(_settings->method_params.isha_value, output[_TimeName_ISHA], _Direction_CLOCKWISE);
+    output[_TimeName_ISHA] = _sun_angle_time(_settings->method_params.isha_value, output[_TimeName_ISHA], _Direction_CLOCKWISE);
 }
 
 /* adjust times in a prayer time array */
@@ -50,24 +116,24 @@ void _adjust_times(double output[_TIMES_COUNT])
     if (_settings->higher_latitudes_method != HigherLatitudesMethod_NONE)
         _adjust_higher_latitudes_times(output);
 
-    output[_TimeName_DHUHR] += _settings->method_params.dhuhr_minutes / 60.0;		/* Dhuhr */
-    
-    if (_settings->method_params.maghrib_is_minutes)		                        /* Maghrib */
+    output[_TimeName_DHUHR] += _settings->method_params.dhuhr_minutes / 60.0; /* Dhuhr */
+
+    if (_settings->method_params.maghrib_is_minutes) /* Maghrib */
         output[_TimeName_MAGHRIB] = output[_TimeName_SUNSET] + _settings->method_params.maghrib_value / 60.0;
-    
-    if (_settings->method_params.isha_is_minutes)		                            /* Isha */
+
+    if (_settings->method_params.isha_is_minutes) /* Isha */
         output[_TimeName_ISHA] = output[_TimeName_MAGHRIB] + _settings->method_params.isha_value / 60.0;
 }
 
 /* apply offsets to the times */
-void _tune_times(double output[_TIMES_COUNT]) 
+void _tune_times(double output[_TIMES_COUNT])
 {
     for (uint8_t i = 0; i < _TIMES_COUNT; ++i)
         output[i] += _settings->offsets_in_minutes[i] / 60.0;
 }
 
 /* convert times to given time format */
-void _modify_formats(double timesInFloat[_TIMES_COUNT], uint8_t output[6][4]) 
+void _modify_formats(double timesInFloat[_TIMES_COUNT], uint8_t output[6][4])
 {
     _get_formated_time(timesInFloat[_TimeName_FAJR], output[0]);
     _get_formated_time(timesInFloat[_TimeName_SUNRISE], output[1]);
@@ -91,9 +157,7 @@ void _adjust_higher_latitudes_times(double output[_TIMES_COUNT])
 double _adjust_higher_latitudes_time(double time, double base, double angle, double night, _Direction direction)
 {
     double portion = _night_portion(angle, night);
-    double timediff = (direction == _Direction_COUNTERCLOCKWISE) ?
-                      time_diff(time, base):
-                      time_diff(base, time);
+    double timediff = (direction == _Direction_COUNTERCLOCKWISE) ? time_diff(time, base) : time_diff(base, time);
     if (isnan(time) || timediff > portion)
         time = base + direction * portion;
     return time;
@@ -122,7 +186,6 @@ void _day_portion(double output[])
         output[i] /= 24.0;
 }
 
-
 /* ---------------------- Calculation Functions ----------------------- */
 /* References: */
 /* http://www.ummah.net/astronomy/saltime   */
@@ -140,8 +203,8 @@ _SunPosition _sun_position(double jd)
     double ra = darctan2(dcos(e) * dsin(l), dcos(l)) / 15.0;
     double eq_t = q / 15.0 - fix_hour(ra);
     double dd = darcsin(dsin(e) * dsin(l));
-    _SunPosition result = {.declination = dd, 
-                          .equation    = eq_t};
+    _SunPosition result = {.declination = dd,
+                           .equation = eq_t};
     return result;
 }
 
@@ -154,7 +217,7 @@ double _compute_mid_day(double time)
 }
 
 /* compute the time at which sun reaches a specific angle below horizon */
-double _sun_angle_time(double angle, double time, _Direction direction) 
+double _sun_angle_time(double angle, double time, _Direction direction)
 {
     double decl = _sun_position(_julian_date + time).declination;
     double noon = _compute_mid_day(time);
@@ -163,18 +226,17 @@ double _sun_angle_time(double angle, double time, _Direction direction)
 }
 
 /* compute the time of Asr */
-double _compute_asr(uint8_t factor, double time) 
+double _compute_asr(uint8_t factor, double time)
 {
     double decl = _sun_position(_julian_date + time).declination;
     double angle = -darccot(factor + dtan(fabs(_settings->latitude - decl)));
     return _sun_angle_time(angle, time, _Direction_CLOCKWISE);
 }
 
-
 /* ---------------------- Format Functions ----------------------- */
 /* convert float time to the given format (see timeFormats) */
 /* ex: 16.5 (i.e., 4:30PM) -> [_get_formated_time] -> {0, 3, 4, 0} */
-void _get_formated_time(double time, uint8_t output[4]) 
+void _get_formated_time(double time, uint8_t output[4])
 {
     if (isnan(time))
     {
@@ -183,7 +245,7 @@ void _get_formated_time(double time, uint8_t output[4])
         output = invalid_time;
         return;
     }
-    
+
     time = fix_hour(time + 0.5 / 60); /* add 0.5 minutes to round */
     uint8_t hours = time;
     uint8_t minutes = (time - hours) * 60;

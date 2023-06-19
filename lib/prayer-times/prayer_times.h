@@ -32,11 +32,11 @@ typedef enum __attribute__((packed))
     _TIMES_COUNT
 } _TimeName;
 
-typedef enum __attribute__((packed)) {
+typedef enum __attribute__((packed))
+{
     _Direction_COUNTERCLOCKWISE = -1,
-    _Direction_CLOCKWISE        = 1
+    _Direction_CLOCKWISE = 1
 } _Direction;
-
 
 typedef struct __attribute__((packed))
 {
@@ -69,7 +69,8 @@ typedef struct __attribute__((packed))
 
 void PrayerTimes_init(const Settings *const settings);
 void PrayerTimes_get(double julianDate, uint8_t output[6][4]);
-
+int16_t PrayerTimes_getNextTime();
+uint8_t PrayerTimes_getRemainingTime();
 
 /* ---------------------- Private ---------------------- */
 /* ---------------------- Compute Prayer Times ----------------------- */
