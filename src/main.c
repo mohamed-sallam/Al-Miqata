@@ -14,7 +14,7 @@
 uint8_t hijri_date[8];
 uint8_t gregorian_date[8];
 
-void swapHijriGregorianDate(uint8_t digits[8], uint8_t* const hijri_gregorian_led_index) 
+void swapHijriGregorianDate(uint8_t digits[8], uint8_t *const hijri_gregorian_led_index)
 {
     static uint8_t time_count = 0;
     if (time_count == 0)
@@ -32,7 +32,7 @@ void swapHijriGregorianDate(uint8_t digits[8], uint8_t* const hijri_gregorian_le
     ++time_count;
 }
 
-int main() 
+int main()
 {
     const double julianDate = 2460049.4132407387;
     const Settings settings = {
@@ -50,27 +50,25 @@ int main()
         .latitude = 30.033333,
         .timezone_offset = -0.08222226666666677,
         .rise_set_angle = 0.833,
-        .offsets_in_minutes = {0, 0, 0, 0, 0, 0, 0}
-    };
+        .offsets_in_minutes = {0, 0, 0, 0, 0, 0, 0}};
     PrayerTimes_init(&settings);
     uint8_t digits[NUMBER_OF_DIGITS];
     PrayerTimes_get(julianDate, &digits[12]);
 
-    timer0_init(&digits);  // display 7-segments
+    timer0_init(digits); // display 7-segments
     timer1_init();
-    
-    Rtc_init(ClockTimeFormat_12h);
+    timer1_countdown(PrayerTimes_getNextTime());
+
+    Rtc_init();
     const Date date = {
         .day = 0x06,
         .date = 0x21,
         .month = 0x04,
-        .year = 0x23
-    };
+        .year = 0x23};
     const Time time = {
         .sec = 0x55,
         .min = 0x59,
-        .hour = 0x11
-    };
+        .hour = 0x11};
     SevenSegments_init();
     Rtc_setDateTime(&date, &time);
     Rtc_getDate(gregorian_date);
@@ -78,12 +76,11 @@ int main()
     Led leds[3] = {
         {.group_index = 38, .index = 0},
         {.group_index = 39, .index = 0},
-        {.group_index = 48, .index = 0}
-    };
+        {.group_index = 48, .index = 0}};
     leds[2].index = Rtc_getDay();
     Led_init();
 
-    while (1) 
+    while (1)
     {
         swapHijriGregorianDate(digits, &leds[0].index);
         Rtc_getTime12H(&digits[8], &leds[1].index);

@@ -2,11 +2,8 @@
 
 #include "communication/i2c.h"
 
-ClockTimeFormat _time_format = ClockTimeFormat_24h;
-
-void Rtc_init( )
+void Rtc_init()
 {
-    
 
     I2c_init();
     I2c_start();
@@ -36,7 +33,7 @@ void Rtc_setDateTime(const Date *const date, const Time *const time)
     I2c_stop();
 }
 
-void Rtc_getTime12H(uint8_t out[4], uint8_t* const is_pm)
+void Rtc_getTime12H(uint8_t out[4], uint8_t *const is_pm)
 {
     I2c_start();
     I2c_write(0xD0);
@@ -56,7 +53,6 @@ void Rtc_getTime12H(uint8_t out[4], uint8_t* const is_pm)
     hour = (hour + 11) % 12 + 1;
     out[2] = hour % 10;
     out[3] = (hour / 10) % 10;
-    
 }
 
 void Rtc_getTime24H(uint8_t out[4])
