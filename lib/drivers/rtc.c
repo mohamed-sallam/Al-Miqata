@@ -4,9 +4,9 @@
 
 ClockTimeFormat _time_format = ClockTimeFormat_24h;
 
-void Rtc_init(ClockTimeFormat time_format)
+void Rtc_init( )
 {
-    _time_format = time_format;
+    
 
     I2c_init();
     I2c_start();
@@ -36,7 +36,30 @@ void Rtc_setDateTime(const Date *const date, const Time *const time)
     I2c_stop();
 }
 
-void Rtc_getTime(uint8_t out[4], uint8_t* const is_pm)
+void Rtc_getTime12H(uint8_t out[4], uint8_t* const is_pm)
+{
+    I2c_start();
+    I2c_write(0xD0);
+    I2c_write(0x01);
+    I2c_stop();
+
+    I2c_start();
+    I2c_write(0xD1);
+    uint8_t min = I2c_read(1);
+    uint8_t hour = I2c_read(0);
+    I2c_stop();
+
+    out[0] = min & 0x0F;
+    out[1] = (min >> 4) & 0x0F;
+    hour = (hour & 0x0F) + ((hour >> 4) & 0x0F) * 10;
+    *is_pm = (hour >= 12);
+    hour = (hour + 11) % 12 + 1;
+    out[2] = hour % 10;
+    out[3] = (hour / 10) % 10;
+    
+}
+
+void Rtc_getTime24H(uint8_t out[4])
 {
     I2c_start();
     I2c_write(0xD0);
@@ -53,16 +76,6 @@ void Rtc_getTime(uint8_t out[4], uint8_t* const is_pm)
     out[0] = min & 0x0F;
     out[1] = (min >> 4) & 0x0F;
 
-    *is_pm = 2;
-    if (_time_format == ClockTimeFormat_12h) 
-    {
-        hour = (hour & 0x0F) + ((hour >> 4) & 0x0F) * 10;
-        *is_pm = (hour >= 12);
-        hour = (hour + 11) % 12 + 1;
-        out[2] = hour % 10;
-        out[3] = (hour / 10) % 10;
-        return;
-    }
     /* Hour digits */
     out[2] = hour & 0x0F;
     out[3] = (hour >> 4) & 0x0F;

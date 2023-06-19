@@ -6,6 +6,7 @@
 #include <led.h>
 #include <rtc.h>
 #include <timer0.h>
+#include <timer1.h>
 
 #include <prayer_times.h>
 #include <kuwaiti_hijri_date.h>
@@ -55,7 +56,8 @@ int main()
     uint8_t digits[NUMBER_OF_DIGITS];
     PrayerTimes_get(julianDate, &digits[12]);
 
-    timer0_init(&digits);
+    timer0_init(&digits);  // display 7-segments
+    timer1_init();
     
     Rtc_init(ClockTimeFormat_12h);
     const Date date = {
@@ -84,7 +86,7 @@ int main()
     while (1) 
     {
         swapHijriGregorianDate(digits, &leds[0].index);
-        Rtc_getTime(&digits[8], &leds[1].index);
+        Rtc_getTime12H(&digits[8], &leds[1].index);
         Led_litLeds(leds);
         SevenSegments_writeDigits(digits);
     }

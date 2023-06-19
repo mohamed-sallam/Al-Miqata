@@ -23,8 +23,8 @@ typedef enum __attribute__((packed))
     ClockTimeFormat_12h = 1
 } ClockTimeFormat;
 
-void Rtc_init(ClockTimeFormat time_format);
+void Rtc_init( );
 void Rtc_setDateTime(const Date *const date, const Time *const time);
-void Rtc_getTime(uint8_t out[4], uint8_t* const is_pm);
+void Rtc_getTime12H(uint8_t out[4], uint8_t* const is_pm);
 void Rtc_getDate(uint8_t out[8]);
 uint8_t Rtc_getDay();
