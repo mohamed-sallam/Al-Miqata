@@ -8,7 +8,8 @@
 > بيُمن إمام المرسلين محمّدٍ  *** تجلّت عن الأوقاتِ كلُّ صلاةِ  
 > — منقول بتصرف طفيف عن [عباس بن فرناس](https://www.aldiwan.net/poem68990.html)
 
-![image](https://github.com/mohamed-sallam/Al-Miqata/assets/59128458/a8d8d62f-930d-4157-9354-2c1821622d6e)
+![Screenshot from 2023-06-20 21-07-34](https://github.com/mohamed-sallam/Al-Miqata/assets/59128458/3146b852-d663-4ef0-b840-6c5cbcce4c6f)
+
 
 ## مميزات ✨
 ✅ رخيص 💰  
@@ -23,22 +24,16 @@
 
 # Al-Miqata ⏰🕌
 Al-Miqata is a digital Islamic wall clock designed to assist Muslims in managing their daily prayers effectively. With its array of features, Al-Miqata aims to provide convenience and utility to its users while maintaining affordability.
-> Behold, I am the finest aid to faith's decree,
-> 
-> When each prayer's appointed hour you fail to see.
-> 
-> When neither sun illuminates the day's course,
-> 
-> Nor stars in the night sky offer guiding force.
-> 
-> By the grace of the Messenger, Muhammad, so true,
-> 
-> Each prayer's time revealed, clear and anew.
->
+> Behold, I am the finest aid to faith's decree,  
+> When each prayer's appointed hour you fail to see.  
+> When neither sun illuminates the day's course,  
+> Nor stars in the night sky offer guiding force.  
+> By the grace of the Messenger, Muhammad, so true,  
+> Each prayer's time revealed, clear and anew.  
 > — ChatGPT's translation of a slightly altered Arabic version, [originally by Abbas ibn Firnas](https://www.aldiwan.net/poem68990.html)
 
 
-![image](https://github.com/mohamed-sallam/Al-Miqata/assets/59128458/a8d8d62f-930d-4157-9354-2c1821622d6e)
+![Screenshot from 2023-06-20 21-07-34](https://github.com/mohamed-sallam/Al-Miqata/assets/59128458/3146b852-d663-4ef0-b840-6c5cbcce4c6f)
 
 
 ## Features ✨
