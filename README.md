@@ -54,7 +54,7 @@ Contact contributers via [Discord](https://discord.gg/bKBzGt6g).
 # Build and Run 🚀
 1. Install [PlatformIO extension for VSCode](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide).
   > [!TIP]
-  > If you are using Ubuntu-based distro, it mightn't be able to identify Python path read [this](https://community.platformio.org/t/ubuntu-vscode-pio-extension-install-platformio-can-not-find-working-python-3-6-interpreter/27853/9).
+  > If you are using an Ubuntu-based distribution, it might not be able to identify the Python path. Read [this](https://community.platformio.org/t/ubuntu-vscode-pio-extension-install-platformio-can-not-find-working-python-3-6-interpreter/27853/9) for more information.
 2. Open PlatformIO tab from VSCode Activity Bar.
 3. Wait until the project is detected by PlatformIO.
 ![20](https://github.com/mohamed-sallam/Al-Miqata/assets/59128458/5c2f91f8-7fcb-4726-abfe-a549dd2ff82c)
