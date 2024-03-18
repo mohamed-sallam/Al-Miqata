@@ -1,7 +1,7 @@
 #pragma once
 #include <avr/io.h>
 
-#define F_CPU 16000000UL
+// #define F_CPU 8000000L
 #define BAUDRATE 115200
 #define BAUD_PRESCALE ((F_CPU/(BAUDRATE*16UL))-1)
 

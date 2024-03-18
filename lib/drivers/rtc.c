@@ -4,7 +4,6 @@
 
 void Rtc_init()
 {
-
     I2c_init();
     I2c_start();
 

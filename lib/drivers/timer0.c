@@ -1,5 +1,5 @@
 #include <timer0.h>
-
+#include <avr/interrupt.h>
 #define numOfInterruptsForMin 31
 
 volatile char numOfMins = 0;

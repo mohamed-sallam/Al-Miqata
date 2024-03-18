@@ -1,6 +1,7 @@
 #include <timer1.h>
+#include <avr/interrupt.h>
 
-volatile char numOfMins = 0;
+volatile char numOfMins1 = 0;
 
 // Interrupt service routine for the timer 1 CTC interrupt
 ISR(TIMER1_OVF_vect)
@@ -11,9 +12,9 @@ ISR(TIMER1_OVF_vect)
     if (TCNT1 == 0)
     {
         // Indicate that a minute has passed
-        numOfMins--;
+        numOfMins1--;
         // If the number of minutes is 0,
-        if (numOfMins == 0)
+        if (numOfMins1 == 0)
         {
             timer0_countdown(PrayerTimes_getRemainingTime());
             timer1_countdown(PrayerTimes_getNextTime());
@@ -39,5 +40,5 @@ void timer1_countdown(int16_t minutes)
     TCNT1 = minutes * 60000;
     // Start the timer
     TCCR1B |= _BV(TCNT1);
-    numOfMins = minutes;
+    numOfMins1 = minutes;
 }
