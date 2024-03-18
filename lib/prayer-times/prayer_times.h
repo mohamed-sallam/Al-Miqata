@@ -69,8 +69,6 @@ typedef struct __attribute__((packed))
 
 void PrayerTimes_init(const Settings *const settings);
 void PrayerTimes_get(double julianDate, uint8_t output[6][4]);
-int16_t PrayerTimes_getNextTime();
-uint8_t PrayerTimes_getRemainingTime();
 
 /* ---------------------- Private ---------------------- */
 /* ---------------------- Compute Prayer Times ----------------------- */

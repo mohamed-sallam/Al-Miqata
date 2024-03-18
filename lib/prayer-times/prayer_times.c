@@ -1,8 +1,7 @@
 #include "prayer_times.h"
-#include "rtc.h"
 #include "dtrig/dtrig.h"
 
-Settings *_settings;
+const Settings *_settings;
 double _julian_date;
 
 void PrayerTimes_init(const Settings *const settings)
@@ -17,71 +16,6 @@ void PrayerTimes_get(double julianDate, uint8_t output[6][4])
     double times[_TIMES_COUNT] = {5, 6, 12, 13, 18, 18, 18};
     _compute_times(times);
     _modify_formats(times, output);
-}
-
-int16_t PrayerTimes_getNextTime()
-{
-    uint8_t RTC_Time[4];
-    int16_t rtcTime;
-    uint8_t PrayersTime[6][4];
-    int16_t minTime = 2000;
-    int16_t tempPrayTime;
-    uint8_t settingTimeFormat = 0;
-    Rtc_getTime24H(RTC_Time);
-    settingTimeFormat = _settings->time_format;
-    _settings->time_format = TimeFormat_24hr;
-    PrayerTimes_get(_julian_date, PrayersTime[6][4]);
-
-    // conversion of RTC time array into single variable
-    rtcTime = ((RTC_Time[3] * 10 + RTC_Time[2]) * 60) + RTC_Time[1] * 10 + RTC_Time[0];
-    // end of conversion
-
-    for (int i = 0; i < 6; i++)
-    {
-        if (i == 1)
-            continue;
-
-        tempPrayTime = ((PrayersTime[i][3] * 10 + PrayersTime[i][2]) * 60) + PrayersTime[i][1] * 10 + PrayersTime[i][1] - rtcTime;
-        if ((tempPrayTime < minTime) && (tempPrayTime > 0))
-            minTime = tempPrayTime;
-    }
-
-    _settings->time_format = settingTimeFormat;
-    return minTime;
-}
-uint8_t PrayerTimes_getRemainingTime()
-{
-    uint8_t RTC_Time[4];
-    uint8_t remaningIqemaTime[6] = {30, 0, 20, 20, 10, 20};
-    int16_t rtcTime;
-    uint8_t PrayersTime[6][4];
-    int16_t minTime = 2000;
-    uint8_t minCounter = 0;
-    int16_t tempPrayTime;
-    uint8_t settingTimeFormat = 0;
-    Rtc_getTime24H(RTC_Time);
-    settingTimeFormat = _settings->time_format;
-    _settings->time_format = TimeFormat_24hr;
-    PrayerTimes_get(_julian_date, PrayersTime[6][4]);
-
-    // conversion of RTC time array into single variable
-    rtcTime = ((RTC_Time[3] * 10 + RTC_Time[2]) * 60) + RTC_Time[1] * 10 + RTC_Time[0];
-    // end of conversion
-
-    for (int i = 0; i < 6; i++)
-    {
-        if (i == 1)
-            continue;
-
-        tempPrayTime = ((PrayersTime[i][3] * 10 + PrayersTime[i][2]) * 60) + PrayersTime[i][1] * 10 + PrayersTime[i][1] - rtcTime;
-        if ((tempPrayTime < minTime) && (tempPrayTime >= 0))
-        {
-            minTime = tempPrayTime;
-            minCounter = i;
-        }
-    }
-    _settings->time_format = settingTimeFormat;
-    return remaningIqemaTime[minCounter];
 }
 
 /* ---------------------- Compute Prayer Times ----------------------- */
