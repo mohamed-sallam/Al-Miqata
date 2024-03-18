@@ -21,7 +21,8 @@
  🚧 يحسب الوقت المتبقي على إقامة الصلاة التالية. ⏳  
  ❌ يمكّن من معايرة الإعدادات (التاريخ، الوقت، الموقع، وما إلى ذلك) عبر تطبيق للأجهزة المحمول باستخدام الواي فاي. 📱🌐  
 
-
+## للتواصل
+تواصل مع المتطوعين عبر [ديسكورد](https://discord.gg/bKBzGt6g).
 # Al-Miqata ⏰🕌
 Al-Miqata is a digital Islamic wall clock designed to assist Muslims in managing their daily prayers effectively. With its array of features, Al-Miqata aims to provide convenience and utility to its users while maintaining affordability.
 > Behold, I am the finest aid to faith's decree,  
@@ -46,6 +47,9 @@ Al-Miqata is a digital Islamic wall clock designed to assist Muslims in managing
 - [x] Implements a method to preserve time settings in case of power loss. 💡
 - [ ] 🚧 Provides the remaining time until the Iqama for the upcoming prayer. ⏳
 - [ ] Enables calibration of settings (date, time, location, ...etc.) through a mobile application using WIFI connectivity. 📱🌐
+
+## Contact us
+Contact contributers via [Discord](https://discord.gg/bKBzGt6g).
 
 # Build and Run 🚀
 1. Install [PlatformIO extension for VSCode](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide).
