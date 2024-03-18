@@ -47,3 +47,16 @@ Al-Miqata is a digital Islamic wall clock designed to assist Muslims in managing
 - [ ] 🚧 Provides the remaining time until the Iqama for the upcoming prayer. ⏳
 - [ ] Enables calibration of settings (date, time, location, ...etc.) through a mobile application using WIFI connectivity. 📱🌐
 
+# Build and Run 🚀
+1. Install [PlatformIO extension for VSCode](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide).
+  > [!TIP]
+  > If you are using Ubuntu-based distro, it mightn't be able to identify Python path read [this](https://community.platformio.org/t/ubuntu-vscode-pio-extension-install-platformio-can-not-find-working-python-3-6-interpreter/27853/9).
+2. Open PlatformIO tab from VSCode Activity Bar.
+3. Wait until the project is detected by PlatformIO.
+4. Click "Build" button under "ATmega328P > General".
+5. It should give you success message such as:
+   ```
+   ================ [SUCCESS] Took 0.88 seconds ================
+   ```
+   and create `.pio/build/ATmega328P/firmware.hex` file.
+6. Burn `.pio/build/ATmega328P/firmware.hex` file into your MCU or if you're using Proteus 8.9 or later, open `al-miqata_schematic.pdsprj` in Proteus and then double click on the ATmega328P MCU on the schematic and in "Program File:" field browse to `.pio/build/ATmega328P/firmware.hex`.
